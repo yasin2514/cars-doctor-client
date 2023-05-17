@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
     const { signIn } = useContext(AuthContext);
@@ -20,30 +21,9 @@ const Login = () => {
         setSuccess('');
 
         signIn(email, password)
-            .then(result => {
-                const user = result.user;
-                const loggedUser = {
-                    email: user.email
-                }
-                console.log(loggedUser)
+            .then(() => {
                 setSuccess("login Successfully");
                 navigate(from, { replace: true });
-
-                fetch('http://localhost:5000/jwt', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(loggedUser)
-
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log('logged user', data);
-                        // warning : local storage is not the best (second best place) to store access token
-                        localStorage.setItem('car-access-token', data.token);
-                    })
-
                 form.reset();
             })
             .catch(error => setError(error.message))
@@ -84,6 +64,10 @@ const Login = () => {
                             <p className='text-red-600'>{error}</p>
                             <p className='text-green-600'>{success}</p>
                         </div>
+                        <SocialLogin
+                            setError={setError}
+                            setSuccess={setSuccess}
+                        ></SocialLogin>
                     </div>
                 </div>
             </div>
