@@ -5,7 +5,7 @@ const BookingsRow = ({ booking, bookings, setBookings, handleUpdateConfirm }) =>
     const handleDelete = id => {
         const procced = confirm("Are you sure to want to delete?");
         if (procced) {
-            fetch(`http://localhost:5000/bookings/${id}`, {
+            fetch(`https://car-doctor-server-lake-eta.vercel.app/bookings/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
